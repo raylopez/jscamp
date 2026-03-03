@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta name="description" content="Hola" />
+        <meta charset="utf-8" />
+        <title>Hola</title>
+        <link href="./styles.css" rel="stylesheet" type="text/css" />
+        <script type="module">
+            import React from 'https://esm.sh/react?dev';
+            import ReactDOM from 'https://esm.sh/react-dom/client?dev';
+            
+            const { useState } = React;
+
+            window.React = React;
+            window.useState = useState; 
+            window.ReactDOM = ReactDOM;
+        </script>
+        <script type="module" src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <script type="text/babel">
+
+            function Saludo({ name, color }) {
+                return (
+                    <h2 style={{ color: color, fontSize: '32px' }}>Hola { name }</h2>
+                );
+            }
+
+            function JobCard({ titulo, descripcion, empresa, modalidad, data }) {
+                const [isApplied, setIsApplied] = useState(false);
+                const textApplied = isApplied ? 'Aplicado' : 'Aplicar';
+                const buttonClass = isApplied ? 'is-applied' : '';
+
+                function handleClick() {
+                    setIsApplied((old,ne) => !old)
+                }
+
+                return (
+                    <article
+                        data-technology={data?.technology}
+                        data-nivel={data?.nivel}
+                        data-modalidad={data?.modalidad}>
+                        <div className="header">
+                            <div>
+                                <h2>{titulo}</h2>
+                                <small>{empresa} | {data.modalidad}</small>
+                            </div>
+                            <button onClick={handleClick} disabled={isApplied} className={`button-apply-job ${buttonClass}`} >{textApplied}</button>
+                        </div>
+                        <p>
+                            {descripcion}
+                        </p>
+                    </article>
+                );
+            }
+
+            function App() {
+                return (
+                    <div>
+                        <JobCard 
+                            titulo="Ingeniero de software"
+                            descripcion="Buscamos un ingeniero de software con experiencia en desarrollo web y conocimientos en JavaScript, React y Node.js. El candidato ideal debe ser capaz de trabajar en equipo y tener buenas habilidades de comunicación."
+                            empresa="Tech Solutions Inc."
+                            data={{nivel: "mid", modalidad:"remoto",technology: ['react', 'node.js', 'javascript'] }} />
+                        <JobCard 
+                            titulo="Analista de Datos"
+                            descripcion="Estamos buscando un analista de datos con experiencia en el manejo de grandes conjuntos de datos y herramientas de visualización. Se requiere conocimiento en SQL, Python y R."
+                            empresa="Data Driven Co."
+                            data={{ nivel: 'senior', modalidad: 'remoto', technology: ['sql', 'python', 'r'] }} />
+                        <JobCard 
+                            titulo="Diseñador UX/UI"
+                            descripcion="Estamos buscando un diseñador UX/UI con pasión por crear experiencias digitales excepcionales. Se requiere experiencia en Figma, diseño centrado en el usuario y colaboración con equipos de desarrollo."
+                            empresa="Tech Solutions Inc."
+                            data={{ nivel: 'junior', modalidad: "barcelona", technology: ['figma'] }} />
+                    </div>
+                )
+            }
+
+            const root = ReactDOM.createRoot(document.querySelector('#root'));
+            root.render(<App />)
+
+        </script>
+    </head>
+    <body>
+        <header>
+            <h1>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brackets-angle"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8 4l-5 8l5 8" /><path d="M16 4l5 8l-5 8" /></svg>
+                DevJobs
+            </h1>
+
+            <nav>
+                <a href="./index.html">Inicio</a>
+                <a href="./employees.html">Empleos</a>
+                <a href="">Empresas</a>
+                <a href="" rel="noopener nopopover">Salarios</a>
+            </nav>
+
+            <div>
+                <devjobs-avatar username="martogalde" service="x" size="32"></devjobs-avatar>
+                <devjobs-avatar username="rochababyface1" service="x" size="32"></devjobs-avatar>
+            </div>
+        </header>
+
+        <main>
+            <div class="search-results-container">
+                <div id="root"></div>
+            </div>
+        </main>
+        
+        <footer>
+            <small>
+                &copy; 2025 DevJobs. Todos los derechos reservados
+            </small>    
+        </footer>
+       
+    </body>
+</html>
