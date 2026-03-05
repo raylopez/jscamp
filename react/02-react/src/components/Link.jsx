@@ -1,13 +1,12 @@
 import useRouter from "../hooks/useRouter";
 
 export default function Link({ href, children, ...restOfProps }) {
-  const { currentPage } = useRouter();
+  const { currentPage, navigateTo } = useRouter();
   const linkClass = currentPage === href ? "active" : "";
 
   const handleClick = (event) => {
     event.preventDefault();
-    window.history.pushState({}, "", href);
-    window.dispatchEvent(new PopStateEvent("popstate"));
+    navigateTo(href);
   };
 
   return (

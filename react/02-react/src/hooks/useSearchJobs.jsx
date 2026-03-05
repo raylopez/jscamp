@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export default function useSearchJobs({
   onSearch,
@@ -6,16 +6,38 @@ export default function useSearchJobs({
   technologyId,
   levelId,
   locationId,
+  searchTextId,
+  formId,
 }) {
+  const timeoutId = useRef(null);
+
   const initalFilters = {
     technology: "",
     level: "",
     location: "",
   };
   const [hasSearchFilters, setHasSearchFilters] = useState(false);
+  const [textFilter, setTextFilter] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    if (event.target.name === searchTextId) {
+      const text = event.target.value;
+      setTextFilter(text);
+
+      if (timeoutId.current) {
+        clearTimeout(timeoutId.current);
+      }
+
+      //Debounce: Cancelar el timeout anterior
+      timeoutId.current = setTimeout(() => {
+        onTextFilter(text);
+      }, 500);
+
+      return;
+    }
+
     const formData = new FormData(event.currentTarget);
     const filters = {
       technology: formData.get(technologyId),
@@ -28,11 +50,6 @@ export default function useSearchJobs({
     );
   };
 
-  const handleTextFilter = (event) => {
-    const text = event.target.value;
-    onTextFilter(text);
-  };
-
   const handleClearFilters = () => {
     onSearch(initalFilters);
     setHasSearchFilters(false);
@@ -41,7 +58,7 @@ export default function useSearchJobs({
   return {
     hasSearchFilters,
     handleSubmit,
-    handleTextFilter,
     handleClearFilters,
+    textFilter,
   };
 }

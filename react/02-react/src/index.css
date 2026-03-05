@@ -185,6 +185,11 @@ form .form-submit {
   flex-direction: row-reverse;
 }
 
+form button.clear {
+  background: transparent;
+  padding: 0.25rem;
+}
+
 /* Hero */
 button {
   padding: 0.75rem 1.5rem;

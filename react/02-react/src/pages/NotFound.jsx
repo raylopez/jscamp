@@ -2,8 +2,11 @@ import React from "react";
 
 export default function NotFound() {
   return (
-    <main>
-      <h1>Página no encontrada</h1>
-    </main>
+    <>
+      <title>Página no encontrada</title>
+      <main>
+        <h1>Página no encontrada</h1>
+      </main>
+    </>
   );
 }

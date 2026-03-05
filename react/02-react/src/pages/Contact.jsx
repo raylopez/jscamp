@@ -28,30 +28,33 @@ export default function Contact() {
   const { handleSubmit } = useContactForm();
 
   return (
-    <main>
-      <h1>Contact</h1>
+    <>
+      <title>Contacto</title>
+      <main>
+        <h1>Contact</h1>
 
-      <form role="contact" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="name">Nombre</label>
-          <input type="text" name="name" id="name" />
-        </div>
-        <div className="form-group">
-          <label htmlFor="lastname">Apellido</label>
-          <input type="text" name="lastname" id="lastname" />
-        </div>
-        <div className="form-group">
-          <label htmlFor="email">Correo</label>
-          <input type="email" name="email" id="email" />
-        </div>
-        <div className="form-group">
-          <label htmlFor="message">Mensaje</label>
-          <textarea id="message" name="message"></textarea>
-        </div>
-        <div className="form-submit">
-          <button type="submit">Enviar</button>
-        </div>
-      </form>
-    </main>
+        <form role="contact" onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="name">Nombre</label>
+            <input type="text" name="name" id="name" />
+          </div>
+          <div className="form-group">
+            <label htmlFor="lastname">Apellido</label>
+            <input type="text" name="lastname" id="lastname" />
+          </div>
+          <div className="form-group">
+            <label htmlFor="email">Correo</label>
+            <input type="email" name="email" id="email" />
+          </div>
+          <div className="form-group">
+            <label htmlFor="message">Mensaje</label>
+            <textarea id="message" name="message"></textarea>
+          </div>
+          <div className="form-submit">
+            <button type="submit">Enviar</button>
+          </div>
+        </form>
+      </main>
+    </>
   );
 }

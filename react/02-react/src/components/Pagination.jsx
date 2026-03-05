@@ -32,9 +32,20 @@ export default function Pagination({
     }
   };
 
+  const buildPagination = (page) => {
+    const url = new URL(window.location.href);
+    url.searchParams.append("page", page);
+
+    return `${url.pathname}/${url.searchParams.toString()}`;
+  };
+
   return (
     <div className={styles.pagination}>
-      <a href="#" className={prevButtonClass} onClick={handlePrevClick}>
+      <a
+        href={buildPagination(currentPage - 1)}
+        className={prevButtonClass}
+        onClick={handlePrevClick}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -56,14 +67,18 @@ export default function Pagination({
         <a
           key={page}
           className={currentPage == page ? styles.active : ""}
-          href="#"
+          href={buildPagination(page)}
           onClick={(event) => handlePageChange(event, page)}
         >
           {page}
         </a>
       ))}
 
-      <a href="#" className={nextButtonClass} onClick={handleNextClick}>
+      <a
+        href={buildPagination(currentPage + 1)}
+        className={nextButtonClass}
+        onClick={handleNextClick}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"

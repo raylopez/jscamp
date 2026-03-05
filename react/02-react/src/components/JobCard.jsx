@@ -2,7 +2,9 @@ import { useState } from "react";
 
 export default function JobCard({ job }) {
   const [isApplied, setIsApplied] = useState(false);
-  const buttonClass = `button-apply-job ${isApplied ? "is-applied" : ""}`;
+  const buttonClass = isApplied
+    ? "button-apply-job is-applied"
+    : "button-apply-job";
   const buttonText = isApplied ? "Aplicado" : "Aplicar";
   const handleApplied = () => {
     setIsApplied((old) => !old);
