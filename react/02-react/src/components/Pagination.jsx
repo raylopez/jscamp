@@ -11,13 +11,6 @@ export default function Pagination({
   const prevButtonClass = isFirstPage ? "disabled" : "";
   const nextButtonClass = isLastPage ? "disabled" : "";
 
-  const buildUrl = (page) => {
-    const url = new URL(window.location);
-    url.searchParams.set("page", page);
-
-    return `${url.pathname}?${url.searchParams.toString()}`
-  }
-
   const handlePrevClick = (event) => {
     event.preventDefault();
     if (isFirstPage === false) {
@@ -39,9 +32,20 @@ export default function Pagination({
     }
   };
 
+  const buildPagination = (page) => {
+    const url = new URL(window.location.href);
+    url.searchParams.append("page", page);
+
+    return `${url.pathname}/${url.searchParams.toString()}`;
+  };
+
   return (
-    <div className={styles.pagination} style={{ display: totalPages > 1 ? 'flex' : 'none' }}>
-      <a href={buildUrl(currentPage - 1)} className={prevButtonClass} onClick={handlePrevClick}>
+    <div className={styles.pagination}>
+      <a
+        href={buildPagination(currentPage - 1)}
+        className={prevButtonClass}
+        onClick={handlePrevClick}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -63,14 +67,18 @@ export default function Pagination({
         <a
           key={page}
           className={currentPage == page ? styles.active : ""}
-          href={buildUrl(page)}
+          href={buildPagination(page)}
           onClick={(event) => handlePageChange(event, page)}
         >
           {page}
         </a>
       ))}
 
-      <a href={buildUrl(currentPage + 1)} className={nextButtonClass} onClick={handleNextClick}>
+      <a
+        href={buildPagination(currentPage + 1)}
+        className={nextButtonClass}
+        onClick={handleNextClick}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
