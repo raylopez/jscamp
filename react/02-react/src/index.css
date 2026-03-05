@@ -57,6 +57,11 @@ h1 {
     height: 2rem;
     color: var(--primary-light);
   }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 }
 
 h1 + p {
@@ -115,6 +120,21 @@ header div a {
   font-size: 0.875rem;
   font-weight: 700;
   text-decoration: none;
+}
+
+header h1 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  a {
+    margin: 0;
+    text-decoration: none;
+    transition: color 0.2s;
+    &:hover{
+      color: #09f;
+    }
+  }
 }
 
 /* Formulario de Búsqueda */
@@ -367,6 +387,9 @@ article {
   height: auto !important;
   width: 100%;
   max-width: 1280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   h1 {
     font-size: 2.5rem;
@@ -388,6 +411,10 @@ article {
     display: flex;
     flex-wrap: wrap;
     margin-top: 0.5rem;
+  }
+
+  .clearInput {
+    padding: 0.5rem;
   }
 
   form {

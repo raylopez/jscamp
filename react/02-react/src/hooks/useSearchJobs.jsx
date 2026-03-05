@@ -1,11 +1,14 @@
 import { useState } from "react";
 
+let timeoutId = null;
+
 export default function useSearchJobs({
   onSearch,
   onTextFilter,
   technologyId,
   levelId,
   locationId,
+  searchId
 }) {
   const initalFilters = {
     technology: "",
@@ -16,6 +19,9 @@ export default function useSearchJobs({
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    if (event.target.name === searchId) return;
+
     const formData = new FormData(event.currentTarget);
     const filters = {
       technology: formData.get(technologyId),
@@ -30,7 +36,15 @@ export default function useSearchJobs({
 
   const handleTextFilter = (event) => {
     const text = event.target.value;
-    onTextFilter(text);
+
+    if (timeoutId)
+        clearTimeout(timeoutId)
+
+    timeoutId = setTimeout(() => {
+      onTextFilter(text);
+    }, 500);
+
+
   };
 
   const handleClearFilters = () => {

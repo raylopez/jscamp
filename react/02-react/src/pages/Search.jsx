@@ -2,19 +2,38 @@ import SearchFormSection from "../components/SearchFormSection.jsx";
 import JobsListing from "../components/JobsListing.jsx";
 import Pagination from "../components/Pagination.jsx";
 import { useEffect, useState } from "react";
+import useRouter from '../hooks/useRouter.jsx'
+
+const RESULTS_PER_PAGE = 5;
 
 function useFilters() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [textFilter, setTextFilter] = useState("");
-  const [filters, setFilters] = useState({
-    technology: "",
-    level: "",
-    location: "",
+  const [currentPage, setCurrentPage] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    const page = Number(params.get("page"));
+    return Number.isNaN(page) ? 1 : page;
+  });
+  const [textFilter, setTextFilter] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("text") || ""
+  });
+  const [filters, setFilters] = useState(() => {
+
+    const params = new URLSearchParams(window.location.search);
+
+    return {
+      technology: params.get("technology") || '',
+      level: params.get("level") || '',
+      location: params.get("location") || '',
+    }
+
   });
 
   const [jobs, setJobs] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
+
+  const { navigateTo } = useRouter()
+
 
   useEffect(() => {
     async function fetchData() {
@@ -48,7 +67,23 @@ function useFilters() {
     fetchData();
   }, [textFilter, filters, currentPage]);
 
-  const RESULTS_PER_PAGE = 5;
+  useEffect(() => {
+
+    const params = new URLSearchParams();
+    if (textFilter) params.set("text", textFilter);
+    if (filters.technology) params.set("technology", filters.technology);
+    if (filters.location) params.set("location", filters.location);
+    if (filters.level) params.set("level", filters.level);
+
+    if (currentPage > 1)
+      params.set("page", currentPage)
+
+    const url = params.toString() ? `${window.location.pathname}?${params.toString()}` : window.location.pathname;
+    console.log('change', currentPage)
+    navigateTo(url)
+
+  }, [textFilter, filters, currentPage, navigateTo])
+
 
   const totalPages = Math.ceil(total / RESULTS_PER_PAGE);
 
@@ -75,6 +110,7 @@ function useFilters() {
     handleTextFilter,
     handlePaginationChange,
     totalPages,
+    textFilter
   };
 }
 
@@ -88,11 +124,8 @@ export default function Search() {
     handleOnSearch,
     handleTextFilter,
     handlePaginationChange,
+    textFilter
   } = useFilters();
-
-  useEffect(() => {
-    document.title = `Resultados: ${total} | Página ${currentPage}`;
-  }, [currentPage, total]);
 
   const loadingSvg = (
     <span className="rotate">
@@ -114,13 +147,18 @@ export default function Search() {
     </span>
   );
 
+  const title = `Resultados: ${total} | Página ${currentPage}`;
+
   return (
     <>
+      <title>{title}</title>
       <div className="employees-section">
         <SearchFormSection
           onSearch={handleOnSearch}
           onTextFilter={handleTextFilter}
+          initialText={textFilter}
         />
+        <h2>Resultados de búsqueda</h2>
         {loading ? loadingSvg : <JobsListing jobs={jobs} />}
 
         <Pagination
