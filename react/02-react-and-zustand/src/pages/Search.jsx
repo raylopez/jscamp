@@ -70,7 +70,7 @@ function useFilters() {
 
       return params;
     });
-  }, [textFilter, filters, currentPage, setSearchParams]);
+  }, [textFilter, filters, currentPage]);
 
   const RESULTS_PER_PAGE = 5;
 

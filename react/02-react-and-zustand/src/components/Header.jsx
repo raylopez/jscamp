@@ -1,6 +1,27 @@
-import { NavLink } from "react-router";
+import NavLink from "../components/Link.jsx";
+import { useAuthStore } from "../store/AuthStore";
+import { useFavorite } from "../store/FavoriteStore.jsx";
+import styles from "./Header.module.css";
+
+const UserAuthButton = () => {
+  const { login, logout, isLoggedIn } = useAuthStore();
+  const { clearFavorites } = useFavorite();
+  const handleLogout = () => {
+    logout();
+    clearFavorites();
+  };
+
+  return isLoggedIn ? (
+    <button onClick={handleLogout}>Cerrar sesión</button>
+  ) : (
+    <button onClick={login}>Iniciar sesión</button>
+  );
+};
 
 export default function Header() {
+  const { isLoggedIn } = useAuthStore();
+  const { countFavorites } = useFavorite();
+  const numberOfFavorites = countFavorites();
   return (
     <header>
       <h1>
@@ -24,38 +45,24 @@ export default function Header() {
       </h1>
 
       <nav>
-        <NavLink
-          className={({ isActive }) => (isActive ? "activeLink" : "")}
-          to="/"
-        >
+        <NavLink activeClass="activeLink" href="/">
           Inicio
         </NavLink>
-        <NavLink
-          className={({ isActive }) => (isActive ? "activeLink" : "")}
-          to="/search"
-        >
+        <NavLink activeClass="activeLink" href="/search">
           Empleos
         </NavLink>
-        <NavLink
-          className={({ isActive }) => (isActive ? "activeLink" : "")}
-          to="/contact"
-        >
+        <NavLink activeClass="activeLink" href="/contact">
           Contacto
         </NavLink>
       </nav>
 
-      <div>
-        {/* <devjobs-avatar
-            username="martogalde"
-            service="x"
-            size="32"
-          ></devjobs-avatar>
-          <devjobs-avatar
-            username="rochababyface1"
-            service="x"
-            size="32"
-          ></devjobs-avatar> */}
-      </div>
+      {isLoggedIn && (
+        <NavLink additionalClass={styles.profileLink} href="/profile">
+          My Favorites 💖 ({numberOfFavorites})
+        </NavLink>
+      )}
+
+      <UserAuthButton />
     </header>
   );
 }

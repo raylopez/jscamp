@@ -1,0 +1,9 @@
+.profileLink {
+    text-decoration: none;
+    color: yellow;
+    font-weight: 600;
+    &:hover {
+        text-decoration: underline;
+        opacity: 0.6;
+    }
+}

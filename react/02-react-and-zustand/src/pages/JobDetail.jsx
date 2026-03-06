@@ -3,6 +3,8 @@ import { NavLink, useNavigate, useParams } from "react-router";
 import snarkdown from "snarkdown";
 import styles from "./JobDetail.module.css";
 import Link from "../components/Link";
+import { useAuthStore } from "../store/AuthStore";
+import { FavoriteButton } from "../components/JobCard";
 
 function JobSection({ title = "", content = "" }) {
   const html = snarkdown(content);
@@ -21,19 +23,64 @@ function JobSection({ title = "", content = "" }) {
   );
 }
 
+function ApplyButton() {
+  const [isApplied, setIsApplied] = useState(false);
+  const { isLoggedIn } = useAuthStore();
+
+  const handleApply = (event) => {
+    event.preventDefault();
+    setIsApplied((old) => !old);
+  };
+
+  return (
+    <button
+      className={styles.applyButton}
+      disabled={isApplied || !isLoggedIn}
+      onClick={handleApply}
+    >
+      {isLoggedIn ? "Aplicar ahora" : "Inicia sesión para aplicar"}
+    </button>
+  );
+}
+
+function JobCardBreadcrumb({ job }) {
+  return (
+    <div className={styles.containerNavigation}>
+      <nav className={styles.breadcrumb}>
+        <Link href="/search" className={styles.breadcrumbButton}>
+          Empleos
+        </Link>
+        <span className={styles.breadcrumbSeparator}>/</span>
+        <span className={styles.breadcrumbCurrent}>{job?.titulo}</span>
+      </nav>
+    </div>
+  );
+}
+
+function JobHeader({ job }) {
+  return (
+    <header className={styles.header}>
+      <div className={styles.titles}>
+        <h1 className={styles.title}>{job?.titulo}</h1>
+        <p className={styles.meta}>
+          {job?.empresa} | {job?.ubicacion}
+        </p>
+      </div>
+
+      <div className={styles.actions}>
+        <ApplyButton />
+        <FavoriteButton jobId={job.id} />
+      </div>
+    </header>
+  );
+}
+
 export default function JobDetail() {
   const { id } = useParams();
   const [job, setJob] = useState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-
-  const [isApplied, setIsApplied] = useState(false);
-
-  const handleApply = (event) => {
-    event.preventDefault();
-    setIsApplied((old) => !old);
-  };
 
   useEffect(() => {
     const url = `https://jscamp-api.vercel.app/api/jobs/${id}`;
@@ -80,31 +127,8 @@ export default function JobDetail() {
     <>
       <title>{job?.titulo}</title>
       <div className={styles.container}>
-        <div className={styles.containerNavigation}>
-          <nav className={styles.breadcrumb}>
-            <Link href="/search" className={styles.breadcrumbButton}>
-              Empleos
-            </Link>
-            <span className={styles.breadcrumbSeparator}>/</span>
-            <span className={styles.breadcrumbCurrent}>{job?.titulo}</span>
-          </nav>
-        </div>
-
-        <header className={styles.header}>
-          <div className={styles.titles}>
-            <h1 className={styles.title}>{job?.titulo}</h1>
-            <p className={styles.meta}>
-              {job?.empresa} | {job?.ubicacion}
-            </p>
-          </div>
-          <button
-            className={styles.applyButton}
-            disabled={isApplied}
-            onClick={handleApply}
-          >
-            Aplicar ahora
-          </button>
-        </header>
+        <JobCardBreadcrumb job={job} />
+        <JobHeader job={job} />
 
         <JobSection title="Descripción" content={job?.content?.description} />
         <JobSection

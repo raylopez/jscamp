@@ -1,8 +1,16 @@
 .title {
     text-decoration: none;
     color: inherit;
-    &:hover {
+
+    a {
+      text-decoration: none;
+      color: white;
+      animation: color 0.2s;
+
+      &:hover {
         text-decoration: underline;
+        color: #09f;
+      }
     }
 }
 
@@ -11,6 +19,19 @@
     flex-direction: column;
     text-align: center;
     gap: 4px;
+
+    a {
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+      color: #09f;
+    animation: color 2s;
+
+      &:hover {
+        color: var(--primary-hover);
+        text-decoration: underline;
+      }
+    }
 }
 
 .details {

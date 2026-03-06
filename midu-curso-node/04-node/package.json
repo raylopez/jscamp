@@ -1,0 +1,23 @@
+{
+  "name": "midu-curso-node",
+  "version": "1.0.0",
+  "description": "El mejor curso de node",
+  "keywords": [
+    "nodejs",
+    "node",
+    "midudev"
+  ],
+  "license": "MIT",
+  "author": "eric",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "picocolors": "1.1.1"
+  },
+  "devDependencies": {
+    "standard": "^17.1.2"
+  }
+}

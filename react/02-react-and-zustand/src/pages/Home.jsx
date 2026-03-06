@@ -1,4 +1,5 @@
 import { useRouter } from "../hooks/useRouter";
+import styles from "./Home.module.css";
 
 export default function Home() {
   const { navigateTo } = useRouter();
@@ -59,7 +60,7 @@ export default function Home() {
             </p>
           </header>
           <footer>
-            <article className="card">
+            <article className={styles.article}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -81,7 +82,7 @@ export default function Home() {
               <h3>Encuentra el trabajo de tus sueños</h3>
               <p>Explora en miles de trabajos a lo largo del mundo</p>
             </article>
-            <article>
+            <article className={styles.article}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -106,7 +107,7 @@ export default function Home() {
                 habilidadas
               </p>
             </article>
-            <article>
+            <article className={styles.article}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"

@@ -2,11 +2,13 @@ import { lazy, Suspense } from "react";
 import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import { Routes, Route } from "react-router";
+import { ProctectedRoute } from "./components/ProtectedRoute.jsx";
 const Search = lazy(() => import("./pages/Search.jsx"));
 const Home = lazy(() => import("./pages/Home.jsx"));
 const Contact = lazy(() => import("./pages/Contact.jsx"));
 const NotFoundPage = lazy(() => import("./pages/NotFound.jsx"));
 const JobDetail = lazy(() => import("./pages/JobDetail.jsx"));
+const ProfilePage = lazy(() => import("./pages/Profile.jsx"));
 
 function App() {
   return (
@@ -18,6 +20,14 @@ function App() {
           <Route path="/search" element={<Search />} />
           <Route path="/job/:id" element={<JobDetail />} />
           <Route path="/contact" element={<Contact />} />
+          <Route
+            path="/profile"
+            element={
+              <ProctectedRoute redirectTo="/?unauthorized=true">
+                <ProfilePage />
+              </ProctectedRoute>
+            }
+          />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>

@@ -1,13 +1,20 @@
-import { Link as NavLink } from "react-router";
-import { useRouter } from "../hooks/useRouter";
+import { NavLink } from "react-router";
 
-export default function Link({ href, children, ...restOfProps }) {
-  const { className = "" } = restOfProps;
-  const { currentPage } = useRouter();
-  const classNameFinal =
-    currentPage === href ? `${className} active` : className;
+export default function Link({
+  href,
+  children,
+  activeClass = "active",
+  additionalClass = "",
+  ...restOfProps
+}) {
   return (
-    <NavLink to={href} {...restOfProps} className={classNameFinal}>
+    <NavLink
+      to={href}
+      {...restOfProps}
+      className={({ isActive }) =>
+        `${additionalClass}  ${isActive ? activeClass : ""}`
+      }
+    >
       {children}
     </NavLink>
   );
