@@ -1,5 +1,4 @@
 import useRouter from "../hooks/useRouter";
-
 export default function Home() {
   const { navigateTo } = useRouter();
   const handleSearch = (event) => {

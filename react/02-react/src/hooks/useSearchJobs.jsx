@@ -6,8 +6,7 @@ export default function useSearchJobs({
   technologyId,
   levelId,
   locationId,
-  searchTextId,
-  formId,
+  searchTextId
 }) {
   const timeoutId = useRef(null);
 

@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import useRouter from "../hooks/useRouter.jsx";
 
 function useFilters() {
-  const { navigateTo } = useRouter();
   const [currentPage, setCurrentPage] = useState(() => {
     const params = new URLSearchParams(window.location.search);
     const page = params.get("page");
@@ -29,6 +28,9 @@ function useFilters() {
   const [jobs, setJobs] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
+
+  const { navigateTo } = useRouter()
+
 
   useEffect(() => {
     async function fetchData() {

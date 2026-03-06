@@ -29,7 +29,7 @@ export default function Contact() {
 
   return (
     <>
-      <title>Contacto</title>
+      <title>DevJobs - Contacto</title>
       <main>
         <h1>Contact</h1>
 
